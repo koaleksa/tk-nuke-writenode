@@ -1697,6 +1697,9 @@ class TankWriteNodeHandler(object):
         fields["width"] = width
         fields["height"] = height
 
+        # add in node
+        fields["node"] = node.name()
+
         # add in date values for YYYY, MM, DD
         today = datetime.date.today()
         fields["YYYY"] = today.year
@@ -1921,6 +1924,9 @@ class TankWriteNodeHandler(object):
             if node.knob(TankWriteNodeHandler.USE_NAME_AS_OUTPUT_KNOB_NAME).value():
                 # set the output to the node name:
                 self.__set_output(node, knob.value())
+            else:
+                # just reset render path since template may use node name
+                self.reset_render_path(node)
                 
         elif knob.name() == TankWriteNodeHandler.USE_NAME_AS_OUTPUT_KNOB_NAME:
             # checkbox controlling if the name should be used as the output has been toggled
